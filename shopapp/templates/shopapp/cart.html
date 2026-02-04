@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart_tag %}
+{% block content %}
+	
+
+	<section id="do_action">
+		<div class="container">
+
+			<div class="row">
+				<div class="col-sm-9">
+					<section id="cart_items">
+		<div class="container">
+			<div class="breadcrumbs">
+				<ol class="breadcrumb">
+				  <li><a href="#">Home</a></li>
+				  <li class="active">Shopping Cart</li>
+				</ol>
+			</div>
+			<div class="table-responsive cart_info">
+				<table class="table table-condensed">
+					<thead>
+						<tr class="cart_menu">
+							<td class="image">Item</td>
+							<td class="description"></td>
+							<td class="price">Price</td>
+							<td class="quantity">Quantity</td>
+							<td class="total">Total</td>
+							<td></td>
+						</tr>
+					</thead>
+					<tbody>
+						{% for key,value in request.session.cart.items %}
+						<tr>
+							<td class="cart_product">
+								<a href=""><img src="{{value.image}}" height="100" width="100">
+							</td>
+							<td class="cart_description">
+								<h4><a href="">{{value.name}}</a></h4>
+								<p>Web ID: {{value.product_id}}</p>
+							</td>
+							<td class="cart_price">
+								<p>Rs.{{value.price}}</p>
+							</td>
+							<td class="cart_quantity">
+								<div class="cart_quantity_button">
+									<a class="cart_quantity_up" href="{% url 'item_increment' value.product_id %}"> + </a>
+									<input class="cart_quantity_input" type="text" name="quantity" value="{{value.quantity}}" autocomplete="off" size="2">
+									{% if value.quantity > 1 %}
+									<a class="cart_quantity_down" href="{% url 'item_decrement' value.product_id %}"> - </a>
+								    {% endif %}
+								</div>
+							</td>
+							<td class="cart_total">
+								<p class="cart_total_price">Rs. {{ value.price|multiply:value.quantity }}</p>
+							</td>
+							<td class="cart_delete">
+								<a class="cart_quantity_delete" href="{% url 'item_clear' key %}"><i class="fa fa-times"></i></a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</section> <!--/#cart_items-->					
+				</div>
+				<div class="col-sm-3">
+					<div class="total_area">
+						<ul>
+							{% with tax=cart_total_amount|multiply:0.13 %}
+
+							<li>Cart Sub Total <span>Rs.{{cart_total_amount}}</span></li>
+							<li>Eco Tax <span>{{tax}}</span></li>
+							<li>Shipping Cost <span>Free</span></li>
+							<li>Total <span>Rs.{{cart_total_amount|add:tax}}</span></li>
+
+							{% endwith %}
+						</ul>
+						<form action="https://rc-epay.esewa.com.np/api/epay/main/v2/form" method="POST"> 
+                            <input type="hidden" id="amount" name="amount" value="{{amount}}" required> 
+                            <input type="hidden" id="tax_amount" name="tax_amount" value ="{{tax_amount}}" required> 
+                            <input type="hidden" id="total_amount" name="total_amount" value="{{total_amount}}" required> 
+                            <input type="hidden" id="transaction_uuid" name="transaction_uuid" value="{{transaction_uuid}}" required> 
+                            <input type="hidden" id="product_code" name="product_code" value ="{{product_code}}" required> 
+                            <input type="hidden" id="product_service_charge" name="product_service_charge" value="0" 
+                                required> 
+                            <input type="hidden" id="product_delivery_charge" name="product_delivery_charge" value="0" 
+                                required> 
+                            <input type="hidden" id="success_url" name="success_url" 
+                                value="{{success_url}}" required> 
+                            <input type="hidden" id="failure_url" name="failure_url" 
+                                value="{{failure_url}}" required> 
+                            <input type="hidden" id="signed_field_names" name="signed_field_names" 
+                                value="{{ signed_field_names }}" required> 
+                            <input type="hidden" id="signature" name="signature" 
+                                value="{{ signature }}" required> 
+                            <input value="Pay With Esewa" type="submit"> 
+                        </form> 
+					</div>
+				</div>
+			</div>
+		</div>
+	</section><!--/#do_action-->
+    {% endblock content %}
+  
+   

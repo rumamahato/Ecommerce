@@ -1,0 +1,429 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+    <section id="slider"><!--slider-->
+		<div class="container">
+			<div class="row"  >
+				<div class="col-sm-12">
+					<div id="slider-carousel" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+                            {% for i in offer %}
+
+							<button type="button" data-bs-target="#slider-carousel" data-bs-slide-to="{{forloop.counter0}}" 
+                            class="{% if forloop.first %}
+                            active 
+                            {% endif %}"></button>
+                            {% endfor %}
+                        </ol>
+						
+						<div class="carousel-inner ">
+                            {% for i in offer %}
+                            <div class="carousel-item {% if forloop.first %}
+                            active
+                            {% endif %}">
+                                <div class="row">
+                                    <div class="col-sm-6 d-flex justify-content-center align-items-center flex-column">
+                                        <h1><span>E</span>-SHOPPER</h1>
+                                        <h2>{{i.title}}</h2>
+                                        <p>{{i.desc|safe}}. </p>
+                                        <hr>
+                                        <p>Price: Rs{{i.price}}</p>
+                                        <button type="button" class="btn btn-default get">Get it now</button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img src="{{i.image.url}}" class="girl img-fluid" height="300px" width="300px" alt="" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}							
+							
+						</div>						
+						
+					</div>
+					
+				</div>
+			</div>
+		</div>
+	</section><!--/slider-->   
+    
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-4">
+    <aside class="sidebar shop-sidebar">
+        <!-- Categories Widget -->
+        <div class="widget widget-categories mb-5" id="full">
+            <h3 class="widget-title position-relative pb-2 mb-4">Categories</h3>
+            <div class="accordion" id="categoriesAccordion">
+                {% for i in category %}
+
+                <div class="accordion-item border-0 mb-2">
+                    <h4 class="accordion-header">
+                        <button class="accordion-button shadow-none py-2 px-3 rounded" type="button" 
+                                data-bs-toggle="collapse" data-bs-target="#{{i.id}}" 
+                                aria-expanded="false" aria-controls="sportswearCollapse">
+                            {{i.title}}
+                            <span class="ms-auto badge bg-light text-dark">{{i.subcategory_count}}</span>
+                        </button>
+                    </h4>
+                    <div id="{{i.id}}" class="accordion-collapse collapse" 
+                         data-bs-parent="#categoriesAccordion">
+                        <div class="accordion-body px-0 pt-2">
+                            <ul class="list-unstyled">
+                                {% for i in i.subcategory_set.all %}
+                                
+                                <li class="mb-1">
+                                    <a href="?subcategory={{i.id}}#full" class="d-flex align-items-center py-1 px-3 text-decoration-none">
+                                        <i class="fas fa-angle-right me-2 text-muted"></i>
+                                        {{i.title}}
+                                        <span class="ms-auto small text-muted">({{i.product_count}})</span>
+                                    </a>
+                                </li>
+                                {% endfor %}
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+        <!-- Price Filter Widget -->
+        <form method="get" action="">
+        <div class="widget widget-price-filter mb-5">
+            <h3 class="widget-title position-relative pb-2 mb-4">Filter by Price</h3>
+            <div class="price-slider mb-3">
+                <div id="priceSlider" class="noUi-target noUi-ltr noUi-horizontal"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="form-floating" style="width: 45%">
+                    <input type="number" name="min" class="form-control" id="minPrice" placeholder="Min" value="0">
+                    <input type="hidden" name="subcategory" value="{{request.GET.subcategory}}" id="">
+                    <label for="minPrice">Min</label>
+                </div>
+                <span class="text-muted">to</span>
+                <div class="form-floating" style="width: 45%">
+                    <input type="number" name="max" class="form-control" id="maxPrice" placeholder="Max" value="600">
+                    <label for="maxPrice">Max</label>
+                </div>
+            </div>
+            <button class="btn btn-primary w-100">Filter</button>
+        </div>
+        </form>
+        <!-- Brands Widget -->
+        <div class="widget widget-brands mb-5">
+            <h3 class="widget-title position-relative pb-2 mb-4">Popular Brands</h3>
+            <div class="brand-list">
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="brandAcne" checked>
+                    <label class="form-check-label d-flex justify-content-between w-100" for="brandAcne">
+                        <span>Acne</span>
+                        <span class="text-muted">(50)</span>
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" id="brandGrune" checked>
+                    <label class="form-check-label d-flex justify-content-between w-100" for="brandGrune">
+                        <span>Grüne Erde</span>
+                        <span class="text-muted">(56)</span>
+                    </label>
+                </div>
+                <!-- Additional brands here -->
+            </div>
+        </div>
+
+        
+    </aside>
+</div>
+                
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--features_items-->
+                        <h2 class="title text-center">Features Items</h2>
+                        <div class="container-fluid bg-trasparent my-4 p-3" style="position: relative">
+							<div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-3 g-3">
+								{% for i in data %}
+
+                                
+                                <div class="col hp">
+								<div class="card h-100 shadow-sm">
+									<a target="_blank" href="{% url 'product_detail' i.id %}">
+									<img src="{{i.image.url}}"class="card-img-top" alt="product.title" />
+									</a>
+
+									<div class="label-top shadow-sm">
+									<a class="text-white" target="_blank" href="">{{i.name}}</a>
+									</div>
+									<div class="card-body">
+									<div class="clearfix mb-3">
+										<span class="float-start badge rounded-pill text-dark">Rs.<del>{{i.mark_price}}</del></span>
+										<span class="float-start badge rounded-pill bg-success">Rs.{{i.mark_price}}</span>
+
+										<span class="float-end"><a href="#" class="small text-muted text-uppercase aff-link">reviews</a></span>
+									</div>
+									<h5 class="card-title">
+										<a target="_blank" href="#">{{i.desc|safe|truncatewords:10}}</a>
+									</h5>
+
+									<div class="d-grid gap-2 my-4">
+
+										<a href="{% url 'cart_add' i.id %}" class="btn btn-warning bold-btn">add to cart</a>
+
+									</div>
+									<div class="clearfix mb-1">
+
+										<span class="float-start"><a href="#"><i class="fas fa-question-circle"></i></a></span>
+
+										<span class="float-end">
+										<i class="far fa-heart" style="cursor: pointer"></i>
+
+										</span>
+									</div>
+									</div>
+								</div>
+								</div>
+                                {% endfor %}
+								
+							</div>
+                        </div>
+                        <nav aria-label="Page navigation example" style="float: right">
+  <ul class="pagination d-flex">
+    {% if data.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ data.previous_page_number }}#full">Previous</a>
+      </li>
+    {% endif %}
+
+    {% for n in num %}
+      {% if n <= 4 or n == data.paginator.num_pages %}
+        <li class="page-item {% if data.number == n %}active{% endif %}">
+          <a class="page-link" href="?page={{ n }}#full">{{ n }}</a>
+        </li>
+      {% elif n == 5 %}
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if data.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ data.next_page_number }}#full">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+                        
+                    </div><!--features_items-->
+                    
+                    <div class="category-tab"><!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item"><a href="#tshirt" class="nav-link active" data-bs-toggle="tab">T-Shirt</a></li>
+                                <li class="nav-item"><a href="#blazers" class="nav-link" data-bs-toggle="tab">Blazers</a></li>
+                                <li class="nav-item"><a href="#sunglass" class="nav-link" data-bs-toggle="tab">Sunglass</a></li>
+                                <li class="nav-item"><a href="#kids" class="nav-link" data-bs-toggle="tab">Kids</a></li>
+                                <li class="nav-item"><a href="#poloshirt" class="nav-link" data-bs-toggle="tab">Polo shirt</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="tshirt" >
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/product-details/jacket.png' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="tab-pane fade" id="blazers" >
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/product-details/jacket.png' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            
+                            <div class="tab-pane fade" id="sunglass" >
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/home/gallery3.jpg' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/home/gallery4.jpg' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/home/gallery1.jpg' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="product-image-wrapper">
+                                        <div class="single-products">
+                                            <div class="productinfo text-center">
+                                                <img src="{% static 'images/home/gallery2.jpg' %}" alt="" class="img-fluid" />
+                                                <h2>$56</h2>
+                                                <p>Easy Polo Black Edition</p>
+                                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                           
+                        </div>
+                    </div><!--/category-tab-->
+                    
+                    <div class="recommended_items"><!--recommended_items-->
+                        <h2 class="title text-center">recommended items</h2>
+                        
+                        <div id="recommended-item-carousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <!-- First slide -->
+                            <div class="carousel-item active">    
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/download_5.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 d-none d-sm-block">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/download_10.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 d-none d-md-block">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/download_8.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Second slide -->
+                            <div class="carousel-item">    
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 col-md-4">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/download_10.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 d-none d-sm-block">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/download_14.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 d-none d-md-block">
+                                        <div class="product-image-wrapper">
+                                            <div class="single-products">
+                                                <div class="productinfo text-center">
+                                                    <img src="{% static 'images/product-details/jacket.png' %}" alt="" class="img-fluid" />
+                                                    <h2>$56</h2>
+                                                    <p>Easy Polo Black Edition</p>
+                                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#recommended-item-carousel" data-bs-slide="prev">
+        <i class="fa fa-angle-left"></i>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#recommended-item-carousel" data-bs-slide="next">
+        <i class="fa fa-angle-right"></i>
+        <span class="visually-hidden">Next</span>
+    </button>            
+</div>
+                    </div><!--/recommended_items-->
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    {% endblock content %}

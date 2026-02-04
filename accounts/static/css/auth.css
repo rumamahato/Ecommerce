@@ -1,0 +1,214 @@
+/* From Uiverse.io by Yaya12085 */
+body {
+    background-color: rgb(202, 208, 34);
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+
+}
+
+.form {
+    width: 420px;
+    position: relative;
+    top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+    background-color: #94dd82;
+    padding: 20px;
+    border-radius: 20px;
+    position: relative;
+}
+
+.title {
+    font-size: 28px;
+    color: royalblue;
+    font-weight: 600;
+    letter-spacing: -1px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+}
+
+.title::before,
+.title::after {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    left: 0px;
+    background-color: royalblue;
+}
+
+.title::before {
+    width: 18px;
+    height: 18px;
+    background-color: royalblue;
+}
+
+.title::after {
+    width: 18px;
+    height: 18px;
+    animation: pulse 1s linear infinite;
+}
+
+.message,
+.signin {
+    color: rgba(88, 87, 87, 0.822);
+    font-size: 14px;
+}
+
+.signin {
+    text-align: center;
+}
+
+.signin a {
+    color: royalblue;
+}
+
+.signin a:hover {
+    text-decoration: underline royalblue;
+}
+
+.flex {
+    display: flex;
+    width: 100%;
+    gap: 6px;
+}
+
+.form label {
+    position: relative;
+}
+
+.form label .input {
+    width: 100%;
+    padding: 10px 10px 20px 10px;
+    outline: 0;
+    border: 1px solid rgba(105, 105, 105, 0.397);
+    border-radius: 10px;
+}
+
+.form label .input+span {
+    position: absolute;
+    left: 10px;
+    top: 15px;
+    color: grey;
+    font-size: 0.9em;
+    cursor: text;
+    transition: 0.3s ease;
+}
+
+.form label .input:placeholder-shown+span {
+    top: 15px;
+    font-size: 0.9em;
+}
+
+.form label .input:focus+span,
+.form label .input:valid+span {
+    top: 30px;
+    font-size: 0.7em;
+    font-weight: 600;
+}
+
+.form label .input:valid+span {
+    color: green;
+}
+
+.submit {
+    border: none;
+    outline: none;
+    background-color: royalblue;
+    padding: 10px;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 16px;
+    transform: .3s ease;
+}
+
+.submit:hover {
+    background-color: rgb(56, 90, 194);
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(0.9);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+.form {
+    width: 420px;
+    max-width: 450px;
+    /* keeps form reasonably large */
+    padding: 25px;
+    background-color: #a3eb91;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* remove top:50px; let container/margin handle spacing */
+}
+
+
+.close-icon {
+    font-size: 25px;
+    cursor: pointer;
+    color: #3f51b5;
+    /* same color as royalblue */
+    transition: 0.3s ease;
+}
+
+.close-icon:hover {
+    color: crimson;
+    /* color when hovering */
+    transform: scale(1.2);
+    /* nice zoom animation */
+}
+
+
+.forgot {
+    font-size: 14px;
+    color: #3f51b5;
+    margin: 5px 0 10px 5px;
+    cursor: pointer;
+}
+
+.forgot:hover {
+    text-decoration: underline;
+}
+
+form .copyright {
+    font-size: 12px;
+    color: #206811;
+    margin-top: auto;
+}
+
+form .copyright {
+    font-size: 12px;
+    color: #206811;
+    text-align: center;
+    margin-top: 4px;
+    /* small space from the last element */
+    margin-bottom: 0;
+    /* remove extra bottom space */
+}
+
+/* Optional: Remove extra bottom gap inside the form */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* keep small gap */
+    padding-bottom: 10px;
+    /* padding for bottom inside form */
+}

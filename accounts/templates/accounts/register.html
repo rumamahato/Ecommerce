@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | MyShop</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
+
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --card-bg: #ffffff;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .register-container {
+            width: 100%;
+            max-width: 500px;
+            /* Slightly wider for the name row */
+        }
+
+        .logo-wrapper {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+        }
+
+        .logo-wrapper img {
+            height: 80px;
+            /* Larger logo */
+            width: auto;
+            filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        /* Modern Inputs */
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .password-wrapper i {
+            position: absolute;
+            right: 25px;
+            top: 15px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+        .input-group-custom input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group-custom input:focus {
+            border-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-top: 15px;
+        }
+
+        .submit-btn:hover {
+            background: #3751a1;
+            transform: translateY(-2px);
+        }
+
+        .close-icon {
+            color: #ccc;
+            font-size: 20px;
+            transition: 0.3s;
+        }
+
+        .close-icon:hover {
+            color: #ff4d4d;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #777;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="register-container">
+        <div class="logo-wrapper">
+            <a href="{% url 'index' %}">
+                <img src="{% static 'images/SHOP.jpg' %}" alt="Logo">
+            </a>
+        </div>
+
+        {% if messages %}
+        {% for message in messages %}
+        {{messages}}
+        
+        {% endfor %}
+
+        {% endif %}
+
+
+        <div class="form-card">
+            <form method="POST" action="{% url 'register' %}">
+                {% csrf_token %}
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <span class="title">Create Account</span>
+                    <a href="{% url 'index' %}"><i class="fa-regular fa-circle-xmark close-icon"></i></a>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">First Name</label>
+                        <div class="input-group-custom">
+                            <input required type="text" name="firstname" class="form-control"
+                                placeholder="Enter First Name">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Last Name</label>
+                        <div class="input-group-custom">
+                            <input required type="text" name="lastname" class="form-control"
+                                placeholder="Enter Last Name">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Username</label>
+                    <div class="input-group-custom">
+                        <input required type="text" name="username" class="form-control"
+                            placeholder="Choose a username">
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Email Address</label>
+                    <div class="input-group-custom">
+                        <input required type="email" name="email" class="form-control" placeholder="example@mail.com">
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Phone Number</label>
+                        <div class="input-group-custom">
+                            <input required type="tel" id="phone_input" class="form-control"
+                            placeholder="+977XXXXXXXXXX">
+
+                            <input type="hidden" name="full_phone" id="full_phone">
+                        </div>
+                        <span id="error-msg" class="text-danger d-none" style="font-size: 12px;">Invalid phone
+                            number</span>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Street Address</label>
+                        <div class="input-group-custom">
+                            <input required type="text" name="street_address" class="form-control"
+                                placeholder="123 Main St">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-4 password-wrapper">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Password</label>
+                        <div class="input-group-custom position-relative">
+                            <input required type="password" name="password" id="password" class="form-control"
+                                placeholder="********">
+                            <i class="fa-solid fa-eye toggle-icon" onclick="toggleVisibility('password', this)"></i>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 password-wrapper">
+                        <label class="form-label fw-bold">Confirm Password</label>
+                        <div class="input-group-custom position-relative">
+                            <input required type="password" name="password_confirmation" id="password_confirmation"
+                                class="form-control" placeholder="********">
+                            <i class="fa-solid fa-eye toggle-icon"
+                                onclick="toggleVisibility('password_confirmation', this)"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn shadow w-100">Join MyShop</button>
+
+                <p class="text-center mt-4 mb-0" style="font-size: 14px;">
+                    Already have an account? <a href="{% url 'log_in' %}" class="text-decoration-none fw-bold">Sign
+                        In</a>
+                </p>
+                <p class="text-center copyright mt-2">
+                    &copy; 2026 MyShop. All rights reserved by Sujan Sapkota
+                </p>
+            </form>
+        </div>
+
+
+    </div>
+
+
+</body>
+<script>
+    /**
+     * Toggles password visibility for a specific input field
+     * @param {string} inputId - The ID of the input to toggle (e.g., 'password')
+     * @param {HTMLElement} iconElement - The 'this' reference to the clicked icon
+     */
+    function toggleVisibility(inputId, iconElement) {
+        // 1. Find the specific input field using the ID provided
+        const input = document.getElementById(inputId);
+
+        // 2. Check current type and flip it
+        if (input.type === "password") {
+            input.type = "text";
+
+            // 3. Update the icon classes
+            iconElement.classList.remove('fa-eye');
+            iconElement.classList.add('fa-eye-slash');
+        } else {
+            input.type = "password";
+
+            // 3. Update the icon classes back
+            iconElement.classList.remove('fa-eye-slash');
+            iconElement.classList.add('fa-eye');
+        }
+    }
+</script>
+
+</html>
