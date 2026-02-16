@@ -14,6 +14,9 @@ import json
 import hmac
 
 # Create your views here.
+def contact(request):
+    return render(request, "shopapp/contact.html")
+
 def index(request):
     offer=offerProduct.objects.filter(is_available=True)
     category=Category.objects.annotate(subcategory_count=Count('subcategory')).\

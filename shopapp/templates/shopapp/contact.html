@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Contact{% endblock %}
+
+{% block content %}
+
+<style>
+.mydivstyle:hover {
+    box-shadow:0 0 20px 0 rgb(12, 5, 1);
+    transform:translateY(-10px);
+    transition: 0.3s;
+}
+.input, .textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #f8f2f2;
+}
+.send-button {
+    background-color: #f76d37;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.send-button:hover {
+    background-color: #e65c23;
+}
+</style>
+
+<div class="container" style="margin-top:50px">
+    <marquee style="font-family: 'Monotype Corsiva'; font-size: 25px; width:150%; color: Blue;
+        background-color: grey; font-weight: bold; margin-top:1%;" scrollamount="10">Welcome to Contact
+    </marquee>
+
+    <br><br>
+    <div class="row mt-5 text-center">
+        <div class="col-lg-3 col-sm-6 mydivstyle">
+            <h4><i class="fas fa-phone-square"></i> Contact</h4>
+            <p class="mt-3 font-weight-bold"><a class="text-danger" href="tel:9779807868627">9779807868627</a></p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mydivstyle">
+            <h4><i class="fas fa-envelope"></i> Send Email</h4>
+            <p class="mt-3 font-weight-bold"><a class="text-danger" href="mailto:rumamahato918@gmail.com">rumamahato918@gmail.com</a></p>
+        </div>
+        <div class="col-lg-3 col-sm-6 mydivstyle">
+            <h4><i class="fa-regular fa-address-card"></i> Address</h4>
+            <p class="mt-3 font-weight-bold"><a class="text-danger" href="address:Bhaisepati, Lalitpur, Nepal">Bhaisepati, Lalitpur, Nepal</a></p>
+        </div>
+    </div>
+    <br br br>
+
+    <div class="contact_section_2 layout_padding" id="contact">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6 padding_0" data-aos="flip-left" data-aos-duration="3000">
+                    <div class="form-container form-container-1">
+                        <form method="POST" action="{% url 'contact' %}" id="contactForm">
+                            {% csrf_token %}
+                            <h1 style="color: black; font-size: 50px; border-bottom: 3px solid #f76d37;" 
+                            class="text-center"><b>GET IN TOUCH</b></h1>
+                            <div class="form-container">
+                                <div class="form">
+                                    <input required placeholder="Name" type="text" class="input" name="name">
+                                    <input required placeholder="Email" type="email" class="input" name="email">
+                                    <input required placeholder="Phone Number" type="tel" class="input" name="phone">
+                                    <textarea required placeholder="Say Hello" rows="10" class="textarea" name="message"></textarea>
+                                    <div class="button-container">
+                                        <input type="submit" value="SEND" class="send-button">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-md-6 padding_0" data-aos="flip-left" data-aos-duration="3000">
+                    <div class="map-responsive">
+                        <h1 style="color: black; font-size: 50px;" class="text-center"><b>OUR LOCATION</b></h1>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d778.921081888901!2d85.31002128784354!3d27.650523915560925!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1783bbab1561%3A0xbc17c2550481302e!2sNakhudole%2C%20Karyabinayak%2044700!5e0!3m2!1sen!2snp!4v1765643621964!5m2!1sen!2snp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

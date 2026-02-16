@@ -125,6 +125,7 @@ class MyPasswordResetView(PasswordResetView):
             messages.error(self.request, "This email is not registered in our system.")
             return self.form_invalid(form)
         return super().form_valid(form)
+    
 
 @login_required(login_url='login')    
 def profile_dashboard(request):

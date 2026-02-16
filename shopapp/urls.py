@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path("",index,name='index'),
+    path("contact/",contact,name='contact'),
     path("product_detail/<int:id>",product_detail,name='product_detail'),
     # ----------------cart---------------------
     path('cart/add/<int:id>/', cart_add, name='cart_add'),
